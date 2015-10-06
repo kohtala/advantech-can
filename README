@@ -1,0 +1,7 @@
+This is a driver for Advantech MIOe-3680.
+
+For openSUSE kernel module packaging these links are useful
+https://en.opensuse.org/Kernel_Module_Packages
+https://www.novell.com/developer/creating_a_kernel_module_package_%28kmp%29.html
+https://www.suse.com/communities/conversations/using-opensuse-build-service-create-and-distribute-kernel-module-packages/
+Documentation/kbuild/modules.txt
