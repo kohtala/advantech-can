@@ -1,6 +1,23 @@
-This is a driver for Advantech MIOe-3680.
+This is a driver for Advantech MIOe-3680 and possibly some other 1-4
+port PCI CAN cards by Advantech.
 
-For openSUSE kernel module packaging these links are useful
+It has been compiled on openSUSE 13.1 for Linux kernel 3.11. To
+compile you need the kernel-source package installed (not just
+kernel-devel) since this depends on kernel internal sja1000.h header
+to compile.
+
+If everything is properly installed, it should compile and install for
+running kernel in two commands:
+
+	$ make
+	$ sudo make modules_install
+
+When a kernel update is installed, you may need to recompile and
+install manually.
+
+I had planned to put it in openSUSE build service, but did not have
+time. These links may be useful for that task:
+
 https://en.opensuse.org/Kernel_Module_Packages
 https://www.novell.com/developer/creating_a_kernel_module_package_%28kmp%29.html
 https://www.suse.com/communities/conversations/using-opensuse-build-service-create-and-distribute-kernel-module-packages/
