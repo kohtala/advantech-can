@@ -1,10 +1,10 @@
 This is a driver for Advantech MIOe-3680 and possibly some other 1-4
 port PCI CAN cards by Advantech.
 
-It has been compiled on openSUSE 13.1 for Linux kernel 3.11. To
-compile you need the kernel-source package installed (not just
-kernel-devel) since this depends on kernel internal sja1000.h header
-to compile.
+It has been compiled and tested on openSUSE 13.1 for Linux kernel
+3.11. It also compiles with up to kernel 4.2. To compile you need the
+kernel-source package installed (not just kernel-devel) since this
+depends on kernel internal sja1000.h header to compile.
 
 If everything is properly installed, it should compile and install for
 running kernel in two commands:

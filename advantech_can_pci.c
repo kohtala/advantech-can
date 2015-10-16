@@ -16,8 +16,7 @@
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software Foundation,
- * Inc., 59 Temple Place - Suite 330, Boston, MA 02111-1307, USA.
+ * along with this program; if not, see <http://www.gnu.org/licenses/>.
  */
 
 /* With portions from ems_pci.c */
@@ -62,7 +61,7 @@ struct adv_pci_card {
  */
 #define ADV_PCI_CDR             (CDR_CBP | CDR_CLKOUT_MASK)
 
-static DEFINE_PCI_DEVICE_TABLE(adv_pci_tbl) = {
+static const struct pci_device_id adv_pci_tbl[] = {
 	/* PCI BAR 0 iomem 0x400 bytes per port 32-bit word for each reg */
 	{ PCI_VDEVICE(ADVANTECH, 0xc201) },
 	{ PCI_VDEVICE(ADVANTECH, 0xc202) },
@@ -167,6 +166,7 @@ static int adv_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
 		priv->cdr = ADV_PCI_CDR;
 
 		SET_NETDEV_DEV(dev, &pdev->dev);
+		dev->dev_id = i;
 
 		/* Register SJA1000 device */
 		err = register_sja1000dev(dev);
