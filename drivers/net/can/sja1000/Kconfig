@@ -21,6 +21,14 @@ config CAN_SJA1000_PLATFORM
 	  on embedded systems with OpenFirmware bindings, e.g. if you
 	  have a PowerPC based system you may want to enable this option.
 
+config CAN_ADVANTECH_PCI
+	tristate "Advantech PCI Card"
+	depends on PCI
+	---help---
+	  This driver is for the one, two or four channel PCI CAN
+	  cards from Advantech with device ID C20x and C30x.
+	  (http://www.advantech.com/).
+
 config CAN_EMS_PCMCIA
 	tristate "EMS CPC-CARD Card"
 	depends on PCMCIA
