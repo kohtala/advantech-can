@@ -45,16 +45,14 @@ struct adv_pci_card {
 /* SJA1000 internal clock is divided by 2 from external clock */
 #define ADV_PCI_CAN_CLOCK (16000000 / 2)
 
-/*
- * The board configuration is following:
+/* The board configuration is following:
  * RX1 is connected to ground.
  * TX1 is not connected, but we do not leave it floating.
  * CLKO forwards clock to PCI bridge.
  */
 #define ADV_PCI_OCR         (OCR_TX0_PUSHPULL | OCR_TX1_PUSHPULL)
 
-/*
- * In the CDR register, enable comparator by-pass for lower latency
+/* In the CDR register, enable comparator by-pass for lower latency
  * since we have external tranceiver.
  * The clock divider value is set for direct oscillator output because the
  * PCI bridge is driven by the second CLKOUT output.
@@ -67,7 +65,7 @@ static const struct pci_device_id adv_pci_tbl[] = {
 	{ PCI_VDEVICE(ADVANTECH, 0xc202) },
 	{ PCI_VDEVICE(ADVANTECH, 0xc204) },
 	{ PCI_VDEVICE(ADVANTECH, 0xc301) },
-	{ PCI_VDEVICE(ADVANTECH, 0xc302) }, // MIOe-3680
+	{ PCI_VDEVICE(ADVANTECH, 0xc302) }, /* MIOe-3680 */
 	{ PCI_VDEVICE(ADVANTECH, 0xc304) },
 	{ 0, }
 };
@@ -120,8 +118,8 @@ static int adv_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
 	}
 
 	/* Allocating card structures to hold addresses, ... */
-	card = kzalloc(sizeof(struct adv_pci_card), GFP_KERNEL);
-	if (card == NULL) {
+	card = kzalloc(sizeof(*card), GFP_KERNEL);
+	if (!card) {
 		pci_disable_device(pdev);
 		return -ENOMEM;
 	}
@@ -133,22 +131,21 @@ static int adv_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
 		goto failure_cleanup;
 
 	card->can_addr = pci_iomap(pdev, 0, 0);
-	if (card->can_addr == NULL) {
+	if (!card->can_addr) {
 		err = -ENOMEM;
 		goto failure_cleanup;
 	}
 
-#if 0	// For some reason MSI was not received
+#ifdef TEST_MSI	/* For some reason MSI was not received on MIOe-3680 */
 	err = pci_enable_msi(pdev);
-	if (err) {
+	if (err)
 		dev_err(&pdev->dev, "Error %d enabling MSI.\n", err);
-	}
 #endif
 
 	/* Number of ports is in the PCI device ID lowest nibble */
 	for (i = 0; i < (pdev->device & 0xf); ++i) {
 		dev = alloc_sja1000dev(0);
-		if (dev == NULL) {
+		if (!dev) {
 			err = -ENOMEM;
 			goto failure_cleanup;
 		}
