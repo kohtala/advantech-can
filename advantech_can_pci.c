@@ -92,7 +92,7 @@ static void adv_remove(struct pci_dev *pdev)
 	for (i = 0; i < ARRAY_SIZE(card->net_dev); i++) {
 		dev = card->net_dev[i];
 		if (dev) {
-			dev_info(&pdev->dev, "Removing %s.\n", dev->name);
+			netdev_info(dev, "Removing\n");
 			unregister_sja1000dev(dev);
 			free_sja1000dev(dev);
 		}
@@ -171,14 +171,14 @@ static int adv_probe(struct pci_dev *pdev, const struct pci_device_id *ent)
 		/* Register SJA1000 device */
 		err = register_sja1000dev(dev);
 		if (err) {
-			dev_err(&pdev->dev, "Registering device failed "
-				"(err=%d)\n", err);
+			dev_err(&pdev->dev,
+				"Registering device failed (err=%d)\n", err);
 			free_sja1000dev(dev);
 			goto failure_cleanup;
 		}
 
-		dev_info(&pdev->dev, "Channel #%d at 0x%p, irq %d\n",
-				i + 1, priv->reg_base, dev->irq);
+		netdev_info(dev, "Channel #%d at 0x%p, irq %d\n",
+			    i + 1, priv->reg_base, dev->irq);
 	}
 
 	return 0;
